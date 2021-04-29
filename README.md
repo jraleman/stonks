@@ -47,8 +47,11 @@ yarn build
 
 - `axios`
 - `d3js`
+- `i18next`
+- `react-i18next`
 - `react-table`
 - `reactstrap`
+- `styled-components`
 
 ## TODO
 
