@@ -8,6 +8,13 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Setup
 
+Before starting, make sure that you have:
+
+1. Have an account on [iexcloud](https://iexcloud.io/)
+2. Get your api tokens from [the console](https://iexcloud.io/console/tokens)
+3. Rename `.env.template` to `.env`
+4. Add your tokens in the `.env` file
+
 To run the app in the development mode, run the following script:
 
 ```
