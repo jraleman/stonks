@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {
+    getStatus,
     getQuotesForStock,
     getLogoForStock,
     getChartForStock
@@ -10,6 +11,35 @@ jest.mock('axios');
 // Default stock symbol for testing
 const symbol = 'NKE';
 const range = '';
+
+describe('getStatus', () => {
+    it('should pass', async () => {
+        const res = {
+            "data": {
+                "status": "up",
+                "version": "1.32",
+                "time": 1607979129127,
+                "currentMonthAPICalls": 14225180421,
+            },
+            "status": 200,
+            "statusText": "",
+            "headers": {},
+            "config": {},
+            "request": {}
+        };
+        axios.get.mockImplementationOnce(() => Promise.resolve(res));
+        await expect(getStatus()).resolves.toEqual(res);
+        expect(axios.get).toHaveBeenCalledWith(`/stock/${symbol}/quote`);
+    });
+    
+    it('should fail', async () => {
+        const errorMessage = 'Network Error';
+        axios.get.mockImplementationOnce(() =>
+            Promise.reject(new Error(errorMessage)),
+        );
+        await expect(getQuotesForStock({ symbol })).rejects.toThrow(errorMessage);
+    });
+});
 
 describe('getQuotesForStock', () => {
     it('should pass', async () => {

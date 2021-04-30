@@ -8,6 +8,16 @@ const api = axios.create({
     params: { token }
 });
 
+export const getStatus = async () => {
+    try {
+        await api.get(`/status`);
+        return true;
+    } catch (error) {
+        console.error(error);
+        return false;
+    }
+};
+
 export const getQuotesForStock = async ({ symbol = '' }) => {
     try {
         const res = await api.get(`/stock/${symbol}/quote`);
