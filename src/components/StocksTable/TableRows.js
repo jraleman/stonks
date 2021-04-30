@@ -1,19 +1,22 @@
 import React from 'react';
+import styled from 'styled-components';
 
-const TableRows = ({ rows, prepareRow }) => rows.map((row) => {
+const StyledRow = styled.tr`
+    cursor: pointer;
+`;
+
+const TableRows = ({ rows, prepareRow, onClick }) => rows.map((row) => {
+    const handleOnClick = () => onClick(row.original);
+    
     prepareRow(row);
-    const handleOnClick = (row) => {
-        const { symbol } = row || {};
-        console.log(symbol);
-    };
     return (
-        <tr {...row.getRowProps()} onClick={() => handleOnClick(row.original)}>
+        <StyledRow {...row.getRowProps()} onClick={handleOnClick}>
             {row.cells.map(cell => (
                 <td {...cell.getCellProps()}>
                     {cell.render("Cell")}
                 </td>
             ))}
-        </tr>
+        </StyledRow>
     );
 });
 
