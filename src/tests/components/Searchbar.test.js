@@ -3,6 +3,7 @@ import Searchbar from '../../components/Searchbar';
 
 describe('Searchbar', () => {
     it('should render', () => {
-        render(<Searchbar />);
+        const component = render(<Searchbar />);
+        expect(component).toMatchSnapshot();
     });
 });

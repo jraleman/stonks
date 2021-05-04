@@ -53,7 +53,13 @@ export const drawLinearChart = ({
     xAxis = '',
     yAxis = '',
     xConvert = (x) => x,
-    yConvert = (y) => y, 
+    yConvert = (y) => y,
+    colors = {
+        price: '#4682b4',
+        average: '#ffa500',
+        gain: '#03a678',
+        lose: '#c0392b',
+    }
 }) => {
     const margin = { top: 50, right: 50, bottom: 50, left: 50 };
     const width = window.innerWidth - margin.left - margin.right;
@@ -124,7 +130,7 @@ export const drawLinearChart = ({
         .data([data])
         .style('fill', 'none')
         .attr('id', 'priceChart')
-        .attr('stroke', 'steelblue')
+        .attr('stroke', colors.price)
         .attr('stroke-width', '1.5')
         .attr('d', line);
     // draw avg curve
@@ -133,7 +139,7 @@ export const drawLinearChart = ({
         .data([movingAverageData])
         .style('fill', 'none')
         .attr('id', 'movingAverageLine')
-        .attr('stroke', 'orange')
+        .attr('stroke', colors.average)
         .attr('d', movingAverageLine);
     // draw volume bar
     svg
@@ -144,7 +150,7 @@ export const drawLinearChart = ({
         .attr('x', d => xScale(xConvert(d[xAxis])))
         .attr('y', d => yVolumeScale(d.volume))
         .attr('fill', (d, i) =>
-            (i && volData[i - 1].close > d.close ? '#c0392b' : '#03a678'))
+            (i && volData[i - 1].close > d.close ? colors.lose : colors.gain))
         .attr('width', 1)
         .attr('height', d => (height - yVolumeScale(d.volume)));
     

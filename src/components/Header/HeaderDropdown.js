@@ -9,7 +9,7 @@ import {
 import uniqueId from 'lodash.uniqueid';
 import { navDropdownItems } from '../../utils/constants';
 
-const ItemsList = () => navDropdownItems.map(({ label, onClick }) => (
+const ItemsList = ({ items }) => items.map(({ label, onClick }) => (
     <DropdownItem
         key={uniqueId('nav-dropdown-item_')}
         onClick={onClick}
@@ -18,14 +18,14 @@ const ItemsList = () => navDropdownItems.map(({ label, onClick }) => (
     </DropdownItem>
 ));
 
-const HeaderDropdown = () => (
+const HeaderDropdown = ({ items = navDropdownItems }) => (
     <Nav navbar>
         <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
                 Menu
             </DropdownToggle>
             <DropdownMenu right>
-                <ItemsList />
+                <ItemsList items={items}/>
             </DropdownMenu>
         </UncontrolledDropdown>
     </Nav>

@@ -5,9 +5,10 @@ import {
   NavbarToggler,
   NavbarBrand,
 } from 'reactstrap';
-import { appTitle } from '../../utils/constants';
 import HeaderTabs from './HeaderTabs';
 import HeaderDropdown from './HeaderDropdown';
+
+const { REACT_APP_WEBSITE_NAME: appName } = process.env || {};
 
 const Header = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -16,7 +17,7 @@ const Header = () => {
     return (
         <header>
             <Navbar color="light" light expand="md">
-                <NavbarBrand href="/">{appTitle}</NavbarBrand>
+                <NavbarBrand href="/">{appName}</NavbarBrand>
                 <NavbarToggler onClick={toggle} />
                 <Collapse isOpen={isOpen} navbar>
                     <HeaderTabs />

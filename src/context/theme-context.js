@@ -3,7 +3,12 @@ import { createContext, useReducer } from 'react';
 const initialState = {
     primary: '#19b3ff',
     secondary: '#148fcc',
-    alt: '#4a90e2',
+    chart: {
+        price: 'steelblue',
+        average: 'orange',
+        gain: '#03a678',
+        lose: '#c0392b',
+    },
     bg: '#ffffff',
     text: '#171818',
 };

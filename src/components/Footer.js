@@ -1,8 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
+import { footerLabel } from '../utils/constants';
 
 const StyledFooter = styled.footer`
-    position: absolute;
+    left: 0;
     bottom: 0;
     width: 100%;
     z-index: 9999;
@@ -11,9 +12,9 @@ const StyledFooter = styled.footer`
     background-color: #f8f9fa;
 `;
 
-const Footer = () => (
+const Footer = ({ label = footerLabel }) => (
     <StyledFooter>
-        © 2021
+        {label}
     </StyledFooter>
 );
 

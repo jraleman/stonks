@@ -1,45 +1,41 @@
 import { render } from '@testing-library/react';
 import StockDetails from '../../components/StockDetails';
 import AverageInfo from '../../components/StockDetails/AverageInfo';
-import StocksProvider from '../../context/stocks-context';
 import { additionalInfo, averageInfoLabel } from '../../utils/constants';
 import { getAverageInfo } from '../../utils/charts';
 import stockData from '../../__mocks__/data/stockData';
-
-const ctxRender = (ui, { providerProps = {}, ...renderOptions }) =>
-    render(
-        <StocksProvider {...providerProps}>
-            {ui}
-        </StocksProvider>,
-        renderOptions
-    );
+import { stocksCtxRender } from '../../utils/tests';
 
 describe('StockDetails', () => {
     it('should render', () => {
-        const providerProps = {
+        const initialState = {
             symbol: '',
             stockData: [{}]
         };
-        ctxRender(<StockDetails />, { providerProps });
+        const component = stocksCtxRender(<StockDetails />, { initialState });
+        expect(component).toMatchSnapshot();
     });
 
     it('uses stock data', () => {
-        const providerProps = {
+        const initialState = {
             symbol: 'NKE',
             stockData
         };
-        ctxRender(<StockDetails />, { providerProps });
+        const component = stocksCtxRender(<StockDetails />, { initialState });
+        expect(component).toMatchSnapshot();
     });
 });
 
 describe('AverageInfo', () => {
     it('should render', () => {
-        render(<AverageInfo />);
+        const component = render(<AverageInfo />);
+        expect(component).toMatchSnapshot();
     });
 
     it('uses stock data', () => {
         const avg = getAverageInfo(stockData);
-        render(<AverageInfo info={avg} allowed={additionalInfo} />);
+        const component = render(<AverageInfo info={avg} allowed={additionalInfo} />);
+        expect(component).toMatchSnapshot();
     });
 
     it('checks for label', () => {
