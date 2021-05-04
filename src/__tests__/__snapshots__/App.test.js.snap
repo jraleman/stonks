@@ -100,14 +100,6 @@ Object {
       >
         Failed to fetch stocks list - try next month?
       </div>
-      <div
-        class="sc-gKckTs lpkRxA"
-      >
-        <div
-          class="sc-iCfLBT jmWqkh"
-          id="chart"
-        />
-      </div>
       <table
         class="table table-dark"
         role="table"
@@ -250,14 +242,6 @@ Object {
       role="alert"
     >
       Failed to fetch stocks list - try next month?
-    </div>
-    <div
-      class="sc-gKckTs lpkRxA"
-    >
-      <div
-        class="sc-iCfLBT jmWqkh"
-        id="chart"
-      />
     </div>
     <table
       class="table table-dark"

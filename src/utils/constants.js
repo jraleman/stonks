@@ -8,7 +8,8 @@ export const aboutMessageLabel = 'Nike coding challenge';
 export const footerLabel = 'Stonks - © 2021';
 export const searchbarLabel = 'Symbol';
 export const searchbarPlaceholder = 'NKE';
-export const averageInfoLabel = '-- Additional Information --'
+export const averageInfoLabel = '-- Additional Information --';
+export const navMenuLabel = 'Menu';
 
 export const navTabs = [
     { title: stocksListLabel, href: '/stocks' },

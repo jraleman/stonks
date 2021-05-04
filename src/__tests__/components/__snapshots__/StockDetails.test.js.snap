@@ -224,27 +224,9 @@ exports[`StockDetails should render 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
-    <div>
-      <div
-        class="sc-hKwCoD jCFmnL"
-      >
-        <div
-          class="sc-eCImvq hZoEbi"
-          id="chart"
-        />
-      </div>
-    </div>
+    <div />
   </body>,
-  "container": <div>
-    <div
-      class="sc-hKwCoD jCFmnL"
-    >
-      <div
-        class="sc-eCImvq hZoEbi"
-        id="chart"
-      />
-    </div>
-  </div>,
+  "container": <div />,
   "debug": [Function],
   "findAllByAltText": [Function],
   "findAllByDisplayValue": [Function],
@@ -303,27 +285,9 @@ exports[`StockDetails uses stock data 1`] = `
 Object {
   "asFragment": [Function],
   "baseElement": <body>
-    <div>
-      <div
-        class="sc-hKwCoD jCFmnL"
-      >
-        <div
-          class="sc-eCImvq hZoEbi"
-          id="chart"
-        />
-      </div>
-    </div>
+    <div />
   </body>,
-  "container": <div>
-    <div
-      class="sc-hKwCoD jCFmnL"
-    >
-      <div
-        class="sc-eCImvq hZoEbi"
-        id="chart"
-      />
-    </div>
-  </div>,
+  "container": <div />,
   "debug": [Function],
   "findAllByAltText": [Function],
   "findAllByDisplayValue": [Function],

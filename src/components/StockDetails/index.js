@@ -10,6 +10,7 @@ const Container = styled.div`
     padding: 1em;
 `;
 
+// get from theme context
 const StyledChart = styled.div`
     background: #121212;
     color: #f9f9f9;
@@ -20,11 +21,13 @@ const StockDetails = () => {
     useLinearChart({ data: stockData });
 
     const avg = getAverageInfo(stockData);
-    const isVisible = !(!symbol || isEmpty(stockData));
+    if (!symbol || isEmpty(stockData)) {
+        return null;
+    }
     return (
         <Container>
             <StyledChart id="chart" />
-            {isVisible && <AverageInfo info={avg} />}
+            <AverageInfo info={avg} />
         </Container>
     );
 };

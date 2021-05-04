@@ -31,6 +31,10 @@ yarn test
 
 - This demonstrates use of Test Driven Development (TDD)
 
+![test1](docs/images/test1.png)
+
+![test2](docs/images/test2.png)
+
 To build the app for production to the `build/` folder, run the following script:
 
 ```
@@ -54,8 +58,6 @@ yarn build
 
 - `axios`
 - `d3js`
-- `i18next`
-- `react-i18next`
 - `react-table`
 - `reactstrap`
 - `styled-components`
@@ -63,3 +65,4 @@ yarn build
 ## TODO
 
 - [ ] Make list of stocks editable
+- [ ] Provide option to setup themes

@@ -35,14 +35,13 @@ export const useStocks = () => {
     return [stocks, status];
 };
 
-// Returns svg chart obj
 export const useLinearChart = ({
     data,
     xAxis = xAxisChart,
     yAxis = yAxisChart,
     id = chartId,
 }) => {
-    const chart = useMemo(() => {
+    useMemo(() => {
         const svg = drawLinearChart({
             id,
             data,
@@ -52,6 +51,4 @@ export const useLinearChart = ({
         });
         return svg;
     }, [data, id, xAxis, yAxis]);
-
-    return [chart];
 };

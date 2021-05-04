@@ -7,7 +7,7 @@ import {
     DropdownItem,
 } from 'reactstrap';
 import uniqueId from 'lodash.uniqueid';
-import { navDropdownItems } from '../../utils/constants';
+import { navDropdownItems, navMenuLabel } from '../../utils/constants';
 
 const ItemsList = ({ items }) => items.map(({ label, onClick }) => (
     <DropdownItem
@@ -18,11 +18,11 @@ const ItemsList = ({ items }) => items.map(({ label, onClick }) => (
     </DropdownItem>
 ));
 
-const HeaderDropdown = ({ items = navDropdownItems }) => (
+const HeaderDropdown = ({ items = navDropdownItems, label = navMenuLabel }) => (
     <Nav navbar>
         <UncontrolledDropdown nav inNavbar>
             <DropdownToggle nav caret>
-                Menu
+                {label}
             </DropdownToggle>
             <DropdownMenu right>
                 <ItemsList items={items}/>

@@ -101,60 +101,64 @@ export const drawLinearChart = ({
         .domain([yMinVolume, yMaxVolume])
         .range([height, 0]);
 
-    clearChart(id);
+    const drawSvg = () => {
+        // setup
+        const svg = d3
+            .select(id)
+            .append('svg')
+            .attr('width', width + margin.left + margin.right)
+            .attr('height', height + margin.top + margin.bottom)
+            .call(responsivefy)
+            .append('g')
+            .attr('transform', `translate(${margin.left},  ${margin.top})`);
+        // x axis
+        svg
+            .append('g')
+            .attr('id', 'xAxis')
+            .attr('transform', `translate(0, ${height})`)
+            .call(d3.axisBottom(xScale));
+        // y axis
+        svg
+            .append('g')
+            .attr('id', 'yAxis')
+            .attr('transform', `translate(${width}, 0)`)
+            .call(d3.axisRight(yScale));
+        // draw price line
+        svg
+            .append('path')
+            .data([data])
+            .style('fill', 'none')
+            .attr('id', 'priceChart')
+            .attr('stroke', colors.price)
+            .attr('stroke-width', '1.5')
+            .attr('d', line);
+        // draw avg curve
+        svg
+            .append('path')
+            .data([movingAverageData])
+            .style('fill', 'none')
+            .attr('id', 'movingAverageLine')
+            .attr('stroke', colors.average)
+            .attr('d', movingAverageLine);
+        // draw volume bar
+        svg
+            .selectAll()
+            .data(volData)
+            .enter()
+            .append('rect')
+            .attr('x', d => xScale(xConvert(d[xAxis])))
+            .attr('y', d => yVolumeScale(d.volume))
+            .attr('fill', (d, i) =>
+                (i && volData[i - 1].close > d.close ? colors.lose : colors.gain))
+            .attr('width', 1)
+            .attr('height', d => (height - yVolumeScale(d.volume)));
+    }
 
-    // setup
-    const svg = d3
-        .select(id)
-        .append('svg')
-        .attr('width', width + margin.left + margin.right)
-        .attr('height', height + margin.top + margin.bottom)
-        .call(responsivefy)
-        .append('g')
-        .attr('transform', `translate(${margin.left},  ${margin.top})`);
-    // x axis
-    svg
-        .append('g')
-        .attr('id', 'xAxis')
-        .attr('transform', `translate(0, ${height})`)
-        .call(d3.axisBottom(xScale));
-    // y axis
-    svg
-        .append('g')
-        .attr('id', 'yAxis')
-        .attr('transform', `translate(${width}, 0)`)
-        .call(d3.axisRight(yScale));
-    // draw price line
-    svg
-        .append('path')
-        .data([data])
-        .style('fill', 'none')
-        .attr('id', 'priceChart')
-        .attr('stroke', colors.price)
-        .attr('stroke-width', '1.5')
-        .attr('d', line);
-    // draw avg curve
-    svg
-        .append('path')
-        .data([movingAverageData])
-        .style('fill', 'none')
-        .attr('id', 'movingAverageLine')
-        .attr('stroke', colors.average)
-        .attr('d', movingAverageLine);
-    // draw volume bar
-    svg
-        .selectAll()
-        .data(volData)
-        .enter()
-        .append('rect')
-        .attr('x', d => xScale(xConvert(d[xAxis])))
-        .attr('y', d => yVolumeScale(d.volume))
-        .attr('fill', (d, i) =>
-            (i && volData[i - 1].close > d.close ? colors.lose : colors.gain))
-        .attr('width', 1)
-        .attr('height', d => (height - yVolumeScale(d.volume)));
-    
-    return svg;
+    const timeout = 420;
+    setTimeout(() => {
+        clearChart(id);
+        drawSvg();
+    }, timeout);
 };
 
 export const getAverageInfo = (stockData) => {
