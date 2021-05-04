@@ -16,8 +16,9 @@ export const useStocks = () => {
 
     useEffect(() => {
         const fetchQuote = async ({ symbol }) => {
-            const { data: stock } = await getQuotesForStock({ symbol });
-            const { data: { url: logo }} = await getLogoForStock({ symbol });
+            const { data: stock } = await getQuotesForStock({ symbol }) || {};
+            const { data: logoData } = await getLogoForStock({ symbol }) || {};
+            const { url: logo } = logoData || {};
             const item = { ...stock, logo };
             setStocks((s) => [...s, item])
         };
