@@ -1,33 +1,49 @@
 import { render } from '@testing-library/react';
 import StockDetails from '../../components/StockDetails';
+import AverageInfo from '../../components/StockDetails/AverageInfo';
+import StocksProvider from '../../context/stocks-context';
+import { additionalInfo, averageInfoLabel } from '../../utils/constants';
+import { getAverageInfo } from '../../utils/charts';
+import stockData from '../../__mocks__/data/stockData';
 
-const mockData = [
-    { "close": 132.95, "high": 133.35, "low": 131.22, "open": 132.345, "symbol": "NKE", "volume": 6026601, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-03-30", "updated": 1617153379000, "changeOverTime": 0, "marketChangeOverTime": 0, "uOpen": 132.345, "uClose": 132.95, "uHigh": 133.35, "uLow": 131.22, "uVolume": 6026601, "fOpen": 132.345, "fClose": 132.95, "fHigh": 133.35, "fLow": 131.22, "fVolume": 6026601, "label": "Mar 30, 21", "change": 0, "changePercent": 0 },
-    { "close": 132.89, "high": 134.18, "low": 131.92, "open": 133.09, "symbol": "NKE", "volume": 6878936, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-03-31", "updated": 1617238094000, "changeOverTime": -0.0004512974802557524, "marketChangeOverTime": -0.0004512974802557524, "uOpen": 133.09, "uClose": 132.89, "uHigh": 134.18, "uLow": 131.92, "uVolume": 6878936, "fOpen": 133.09, "fClose": 132.89, "fHigh": 134.18, "fLow": 131.92, "fVolume": 6878936, "label": "Mar 31, 21", "change": -0.060000000000002274, "changePercent": -0.0005 },
-    { "close": 132.53, "high": 134.69, "low": 132.21, "open": 134.69, "symbol": "NKE", "volume": 5720557, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-01", "updated": 1617324497000, "changeOverTime": -0.003159082361790053, "marketChangeOverTime": -0.003159082361790053, "uOpen": 134.69, "uClose": 132.53, "uHigh": 134.69, "uLow": 132.21, "uVolume": 5720557, "fOpen": 134.69, "fClose": 132.53, "fHigh": 134.69, "fLow": 132.21, "fVolume": 5720557, "label": "Apr 1, 21", "change": -0.3599999999999852, "changePercent": -0.0027 },
-    { "close": 135.12, "high": 135.68, "low": 133.1, "open": 133.1, "symbol": "NKE", "volume": 5508931, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-05", "updated": 1617670097000, "changeOverTime": 0.01632192553591588, "marketChangeOverTime": 0.01632192553591588, "uOpen": 133.1, "uClose": 135.12, "uHigh": 135.68, "uLow": 133.1, "uVolume": 5508931, "fOpen": 133.1, "fClose": 135.12, "fHigh": 135.68, "fLow": 133.1, "fVolume": 5508931, "label": "Apr 5, 21", "change": 2.5900000000000034, "changePercent": 0.0195 },
-    { "close": 137.16, "high": 137.71, "low": 134.93, "open": 135.44, "symbol": "NKE", "volume": 4670099, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-06", "updated": 1617757215000, "changeOverTime": 0.03166603986461082, "marketChangeOverTime": 0.03166603986461082, "uOpen": 135.44, "uClose": 137.16, "uHigh": 137.71, "uLow": 134.93, "uVolume": 4670099, "fOpen": 135.44, "fClose": 137.16, "fHigh": 137.71, "fLow": 134.93, "fVolume": 4670099, "label": "Apr 6, 21", "change": 2.039999999999992, "changePercent": 0.0151 },
-    { "close": 136.54, "high": 138.24, "low": 136.36, "open": 136.99, "symbol": "NKE", "volume": 6646002, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-07", "updated": 1617842898000, "changeOverTime": 0.027002632568634853, "marketChangeOverTime": 0.027002632568634853, "uOpen": 136.99, "uClose": 136.54, "uHigh": 138.24, "uLow": 136.36, "uVolume": 6646002, "fOpen": 136.99, "fClose": 136.54, "fHigh": 138.24, "fLow": 136.36, "fVolume": 6646002, "label": "Apr 7, 21", "change": -0.6200000000000045, "changePercent": -0.0045 },
-    { "close": 133.68, "high": 137.31, "low": 133.405, "open": 137.28, "symbol": "NKE", "volume": 8748392, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-08", "updated": 1617930087000, "changeOverTime": 0.0054907860097782495, "marketChangeOverTime": 0.0054907860097782495, "uOpen": 137.28, "uClose": 133.68, "uHigh": 137.31, "uLow": 133.405, "uVolume": 8748392, "fOpen": 137.28, "fClose": 133.68, "fHigh": 137.31, "fLow": 133.405, "fVolume": 8748392, "label": "Apr 8, 21", "change": -2.859999999999985, "changePercent": -0.0209 },
-    { "close": 135.45, "high": 135.5, "low": 133.5, "open": 133.94, "symbol": "NKE", "volume": 6056769, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-09", "updated": 1618017376000, "changeOverTime": 0.018804061677322303, "marketChangeOverTime": 0.018804061677322303, "uOpen": 133.94, "uClose": 135.45, "uHigh": 135.5, "uLow": 133.5, "uVolume": 6056769, "fOpen": 133.94, "fClose": 135.45, "fHigh": 135.5, "fLow": 133.5, "fVolume": 6056769, "label": "Apr 9, 21", "change": 1.7699999999999818, "changePercent": 0.0132 },
-    { "close": 136.64, "high": 136.9, "low": 134.22, "open": 134.75, "symbol": "NKE", "volume": 5638234, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-12", "updated": 1618275621000, "changeOverTime": 0.0277547950357277, "marketChangeOverTime": 0.0277547950357277, "uOpen": 134.75, "uClose": 136.64, "uHigh": 136.9, "uLow": 134.22, "uVolume": 5638234, "fOpen": 134.75, "fClose": 136.64, "fHigh": 136.9, "fLow": 134.22, "fVolume": 5638234, "label": "Apr 12, 21", "change": 1.1899999999999977, "changePercent": 0.0088 },
-    { "close": 133.54, "high": 135.99, "low": 133.4, "open": 135.6, "symbol": "NKE", "volume": 8778164, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-13", "updated": 1618361297000, "changeOverTime": 0.004437758555848089, "marketChangeOverTime": 0.004437758555848089, "uOpen": 135.6, "uClose": 133.54, "uHigh": 135.99, "uLow": 133.4, "uVolume": 8778164, "fOpen": 135.6, "fClose": 133.54, "fHigh": 135.99, "fLow": 133.4, "fVolume": 8778164, "label": "Apr 13, 21", "change": -3.0999999999999943, "changePercent": -0.0227 },
-    { "close": 132.26, "high": 134.18, "low": 131.82, "open": 133.54, "symbol": "NKE", "volume": 7354084, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-14", "updated": 1618447694000, "changeOverTime": -0.005189921022940938, "marketChangeOverTime": -0.005189921022940938, "uOpen": 133.54, "uClose": 132.26, "uHigh": 134.18, "uLow": 131.82, "uVolume": 7354084, "fOpen": 133.54, "fClose": 132.26, "fHigh": 134.18, "fLow": 131.82, "fVolume": 7354084, "label": "Apr 14, 21", "change": -1.2800000000000011, "changePercent": -0.0096 },
-    { "close": 133.67, "high": 134.07, "low": 132.68, "open": 133, "symbol": "NKE", "volume": 6285030, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-15", "updated": 1618534097000, "changeOverTime": 0.005415569763068815, "marketChangeOverTime": 0.005415569763068815, "uOpen": 133, "uClose": 133.67, "uHigh": 134.07, "uLow": 132.68, "uVolume": 6285030, "fOpen": 133, "fClose": 133.67, "fHigh": 134.07, "fLow": 132.68, "fVolume": 6285030, "label": "Apr 15, 21", "change": 1.4099999999999966, "changePercent": 0.0107 },
-    { "close": 134.31, "high": 134.77, "low": 133.73, "open": 134.71, "symbol": "NKE", "volume": 6852498, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-16", "updated": 1618622180000, "changeOverTime": 0.010229409552463436, "marketChangeOverTime": 0.010229409552463436, "uOpen": 134.71, "uClose": 134.31, "uHigh": 134.77, "uLow": 133.73, "uVolume": 6852498, "fOpen": 134.71, "fClose": 134.31, "fHigh": 134.77, "fLow": 133.73, "fVolume": 6852498, "label": "Apr 16, 21", "change": 0.6400000000000148, "changePercent": 0.0048 },
-    { "close": 132.57, "high": 134.38, "low": 132.15, "open": 134.3, "symbol": "NKE", "volume": 5613592, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-19", "updated": 1618880419000, "changeOverTime": -0.002858217374952956, "marketChangeOverTime": -0.002858217374952956, "uOpen": 134.3, "uClose": 132.57, "uHigh": 134.38, "uLow": 132.15, "uVolume": 5613592, "fOpen": 134.3, "fClose": 132.57, "fHigh": 134.38, "fLow": 132.15, "fVolume": 5613592, "label": "Apr 19, 21", "change": -1.740000000000009, "changePercent": -0.013 },
-    { "close": 127.11, "high": 129.9, "low": 125.7, "open": 129.17, "symbol": "NKE", "volume": 13268678, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-20", "updated": 1618966833000, "changeOverTime": -0.043926288078224816, "marketChangeOverTime": -0.043926288078224816, "uOpen": 129.17, "uClose": 127.11, "uHigh": 129.9, "uLow": 125.7, "uVolume": 13268678, "fOpen": 129.17, "fClose": 127.11, "fHigh": 129.9, "fLow": 125.7, "fVolume": 13268678, "label": "Apr 20, 21", "change": -5.459999999999994, "changePercent": -0.0412 },
-    { "close": 129.9, "high": 130.33, "low": 127.37, "open": 127.59, "symbol": "NKE", "volume": 7110855, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-21", "updated": 1619052498000, "changeOverTime": -0.02294095524633308, "marketChangeOverTime": -0.02294095524633308, "uOpen": 127.59, "uClose": 129.9, "uHigh": 130.33, "uLow": 127.37, "uVolume": 7110855, "fOpen": 127.59, "fClose": 129.9, "fHigh": 130.33, "fLow": 127.37, "fVolume": 7110855, "label": "Apr 21, 21", "change": 2.7900000000000063, "changePercent": 0.0219 },
-    { "close": 129.18, "high": 130.37, "low": 127.98, "open": 129.89, "symbol": "NKE", "volume": 6442917, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-22", "updated": 1619139619000, "changeOverTime": -0.028356525009401896, "marketChangeOverTime": -0.028356525009401896, "uOpen": 129.89, "uClose": 129.18, "uHigh": 130.37, "uLow": 127.98, "uVolume": 6442917, "fOpen": 129.89, "fClose": 129.18, "fHigh": 130.37, "fLow": 127.98, "fVolume": 6442917, "label": "Apr 22, 21", "change": -0.7199999999999989, "changePercent": -0.0055 },
-    { "close": 130.19, "high": 130.65, "low": 128.4604, "open": 128.93, "symbol": "NKE", "volume": 7489517, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-23", "updated": 1619226975000, "changeOverTime": -0.020759684091763753, "marketChangeOverTime": -0.020759684091763753, "uOpen": 128.93, "uClose": 130.19, "uHigh": 130.65, "uLow": 128.4604, "uVolume": 7489517, "fOpen": 128.93, "fClose": 130.19, "fHigh": 130.65, "fLow": 128.4604, "fVolume": 7489517, "label": "Apr 23, 21", "change": 1.009999999999991, "changePercent": 0.0078 },
-    { "close": 131.6, "high": 131.7, "low": 129.32, "open": 130.49, "symbol": "NKE", "volume": 8217807, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-26", "updated": 1619485223000, "changeOverTime": -0.010154193305754, "marketChangeOverTime": -0.010154193305754, "uOpen": 130.49, "uClose": 131.6, "uHigh": 131.7, "uLow": 129.32, "uVolume": 8217807, "fOpen": 130.49, "fClose": 131.6, "fHigh": 131.7, "fLow": 129.32, "fVolume": 8217807, "label": "Apr 26, 21", "change": 1.4099999999999966, "changePercent": 0.0108 },
-    { "close": 132.11, "high": 132.79, "low": 131.41, "open": 132, "symbol": "NKE", "volume": 5833092, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-27", "updated": 1619570898000, "changeOverTime": -0.006318164723580106, "marketChangeOverTime": -0.006318164723580106, "uOpen": 132, "uClose": 132.11, "uHigh": 132.79, "uLow": 131.41, "uVolume": 5833092, "fOpen": 132, "fClose": 132.11, "fHigh": 132.79, "fLow": 131.41, "fVolume": 5833092, "label": "Apr 27, 21", "change": 0.5100000000000193, "changePercent": 0.0039 },
-    { "close": 130.71, "high": 132.33, "low": 130.345, "open": 132.26, "symbol": "NKE", "volume": 8195648, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-28", "updated": 1619659935000, "changeOverTime": -0.016848439262880637, "marketChangeOverTime": -0.016848439262880637, "uOpen": 132.26, "uClose": 130.71, "uHigh": 132.33, "uLow": 130.345, "uVolume": 8195648, "fOpen": 132.26, "fClose": 130.71, "fHigh": 132.33, "fLow": 130.345, "fVolume": 8195648, "label": "Apr 28, 21", "change": -1.4000000000000057, "changePercent": -0.0106 },
-    { "close": 133.26, "high": 134.12, "low": 131.23, "open": 131.77, "symbol": "NKE", "volume": 6612461, "id": "HISTORICAL_PRICES", "key": "NKE", "subkey": "", "date": "2021-04-29", "updated": 1619744419000, "changeOverTime": 0.002331703647987983, "marketChangeOverTime": 0.002331703647987983, "uOpen": 131.77, "uClose": 133.26, "uHigh": 134.12, "uLow": 131.23, "uVolume": 6612461, "fOpen": 131.77, "fClose": 133.26, "fHigh": 134.12, "fLow": 131.23, "fVolume": 6612461, "label": "Apr 29, 21", "change": 2.549999999999983, "changePercent": 0.0195 }
-];
+const ctxRender = (ui, { providerProps = {}, ...renderOptions }) =>
+    render(
+        <StocksProvider {...providerProps}>
+            {ui}
+        </StocksProvider>,
+        renderOptions
+    );
 
 describe('StockDetails', () => {
-    it('should should render', () => {
-        render(<StockDetails />);
+    it('should render', () => {
+        const providerProps = {
+            symbol: '',
+            stockData: [{}]
+        };
+        ctxRender(<StockDetails />, { providerProps });
+    });
+
+    it('uses stock data', () => {
+        const providerProps = {
+            symbol: 'NKE',
+            stockData
+        };
+        ctxRender(<StockDetails />, { providerProps });
+    });
+});
+
+describe('AverageInfo', () => {
+    it('should render', () => {
+        render(<AverageInfo />);
+    });
+
+    it('uses stock data', () => {
+        const avg = getAverageInfo(stockData);
+        render(<AverageInfo info={avg} allowed={additionalInfo} />);
+    });
+
+    it('checks for label', () => {
+        const { getByText } = render(<AverageInfo />);
+        expect(getByText(averageInfoLabel)).toBeDefined();
     });
 });
