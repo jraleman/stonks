@@ -7,6 +7,7 @@ import Searchbar from './components/Searchbar';
 import StocksTable from './components/StocksTable';
 import StockDetails from './components/StockDetails';
 import { useStocks } from './utils/hooks';
+import { failedStatusLabel } from './utils/constants';
 
 const App = () => {
     const [stocks, status] = useStocks();
@@ -14,7 +15,7 @@ const App = () => {
         <Providers>
             <Header />
             <Searchbar />
-            {!status && <Alert color="warning">Offline</Alert>}
+            {!status && <Alert color="warning">{failedStatusLabel}</Alert>}
             <StockDetails />
             <StocksTable stocks={stocks} />
             <Footer />

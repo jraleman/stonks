@@ -9,8 +9,8 @@ import TableHeaders from './TableHeaders';
 import TableRows from './TableRows';
 
 const StocksTable = ({ stocks }) => {
-    const data = useMemo(() => stocks.map((d) => pick(d, basicInfo)));
-    const columns = useMemo(() => tableColumns);
+    const data = useMemo(() => stocks.map((d) => pick(d, basicInfo)), [stocks]);
+    const columns = useMemo(() => tableColumns, []);
     const {
         getTableProps,
         getTableBodyProps,
@@ -28,8 +28,8 @@ const StocksTable = ({ stocks }) => {
         // TODO: user can change range
         const range = '';
         const res = await getChartForStock({ symbol, range });
-        const { data: charts } = res || {};
-        dispatch({ type: 'LOAD_STOCK', payload: { symbol, charts } });
+        const { data: stockData } = res || {};
+        dispatch({ type: 'LOAD_STOCK', payload: { symbol, stockData } });
     }
 
     const handleOnClick = (row) => {

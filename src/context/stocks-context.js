@@ -2,15 +2,15 @@ import { createContext, useReducer } from 'react';
 
 const initialState = {
     symbol: '',
-    charts: [{}],
+    stockData: [{}]
 };
 
 const reducer = (state, action) => {
     const { type, payload } = action || {};
     switch (type) {
         case 'LOAD_STOCK':
-            const { symbol, charts } = payload || {};
-            return { ...state, symbol, charts };
+            const { symbol, stockData } = payload || {};
+            return { ...state, symbol, stockData };
         case 'RESET_CONTEXT':
             return initialState;
         default:
